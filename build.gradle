@@ -34,6 +34,7 @@ dependencies {
     implementation 'com.netflix.graphql.dgs:graphql-dgs-spring-graphql-starter'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

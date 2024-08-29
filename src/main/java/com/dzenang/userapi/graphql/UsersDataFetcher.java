@@ -25,6 +25,6 @@ public class UsersDataFetcher {
 
     @DgsQuery
     public User user(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow();
     }
 }
