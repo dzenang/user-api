@@ -35,7 +35,8 @@ class UsersDataFetcherTest {
                                 name
                             }
                         }
-                       """, "data.users[*].name");
+                       """,
+                "data.users[*].name");
         Assertions.assertEquals(2, userNames.size());
         Assertions.assertTrue(userNames.containsAll(List.of(UserFixtures.userName1, UserFixtures.userName2)));
     }
@@ -49,7 +50,8 @@ class UsersDataFetcherTest {
                                  name
                              }
                          }
-                       """, "data.user.name");
+                       """,
+                "data.user.name");
         Assertions.assertEquals(UserFixtures.userName1, actualName);
     }
 
