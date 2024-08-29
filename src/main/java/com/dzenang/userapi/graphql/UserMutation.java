@@ -3,11 +3,12 @@ package com.dzenang.userapi.graphql;
 import com.dzenang.userapi.model.CreateUserInput;
 import com.dzenang.userapi.model.UpdateUserInput;
 import com.dzenang.userapi.model.User;
-import com.dzenang.userapi.repository.UserRepository;
+import com.dzenang.userapi.model.entity.UserEntity;
+import com.dzenang.userapi.repository.UserEntityRepository;
+import com.dzenang.userapi.util.UserMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
-import com.netflix.graphql.dgs.InputArgument;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,10 +18,10 @@ import java.util.Objects;
 @DgsComponent
 public class UserMutation {
 
-    private final UserRepository userRepository;
+    private final UserEntityRepository userEntityRepository;
 
-    public UserMutation(@Autowired UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserMutation(@Autowired UserEntityRepository userEntityRepository) {
+        this.userEntityRepository = userEntityRepository;
     }
 
     @DgsMutation
@@ -28,10 +29,10 @@ public class UserMutation {
         Map<String, Object> input = env.getArgument("input");
         CreateUserInput createUserInput = new ObjectMapper().convertValue(input, CreateUserInput.class);
 
-        User user = new User();
-        user.setName(createUserInput.getName());
-        user.setEmail(createUserInput.getEmail());
-        return userRepository.save(user);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setName(createUserInput.getName());
+        userEntity.setEmail(createUserInput.getEmail());
+        return UserMapper.toUser(userEntityRepository.save(userEntity));
     }
 
     @DgsMutation
@@ -40,19 +41,19 @@ public class UserMutation {
         UpdateUserInput updateUserInput = new ObjectMapper().convertValue(input, UpdateUserInput.class);
         Long id = Long.valueOf(Objects.requireNonNull(env.getArgument("id")));
 
-        User user = userRepository.findById(id).orElseThrow();
-        user.setName(updateUserInput.getName());
-        user.setEmail(updateUserInput.getEmail());
-        return userRepository.save(user);
+        UserEntity userEntity = userEntityRepository.findById(id).orElseThrow();
+        userEntity.setName(updateUserInput.getName());
+        userEntity.setEmail(updateUserInput.getEmail());
+        return UserMapper.toUser(userEntityRepository.save(userEntity));
     }
 
-    //	deleteUser(id: ID!): User!
-//    @DgsMutation
-//    public User deleteUser(DataFetchingEnvironment env) {
-//        Long id = Long.valueOf(Objects.requireNonNull(env.getArgument("id")));
-//
-//        User user = userRepository.findById(id).orElseThrow();
-//        userRepository.delete(user);
-//        return new User();
-//    }
+    @DgsMutation
+    public User deleteUser(DataFetchingEnvironment env) {
+        Long id = Long.valueOf(Objects.requireNonNull(env.getArgument("id")));
+
+        UserEntity userEntity = userEntityRepository.findById(id).orElseThrow();
+        User deletedUser = UserMapper.toUser(userEntity);
+        userEntityRepository.delete(userEntity);
+        return deletedUser;
+    }
 }
