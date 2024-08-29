@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "0fa8a6d2-5bdf-4675-a5c8-2563aaa14434",
+		"name": "UserAPI graphql",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3225296"
+	},
+	"item": [
+		{
+			"name": "/graphql users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\n    users{\n        id\n        name\n        email\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "localhost:8085/graphql",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/graphql user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\n    user(id: 1){\n        id\n        # name\n        email\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "localhost:8085/graphql",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/graphql createUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation CreateUser($input: CreateUserInput!) {\n    createUser(input: $input) {\n        id\n        name\n        email\n    }\n}",
+						"variables": "{\n    \"input\": {\n        \"name\": \"blabla\",\n        \"email\": \"bla@gmail.com\"\n    }\n}"
+					}
+				},
+				"url": {
+					"raw": "localhost:8085/graphql",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/graphql updateUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation UpdateUser($input: UpdateUserInput!) {\n        updateUser(id: 1, input: $input) {\n            id\n            name\n            email\n        }\n}",
+						"variables": "{\n    \"input\": {\n        \"name\": \"hhhhh\",\n        \"email\": \"bla@gmail.com\"\n    }\n}"
+					}
+				},
+				"url": {
+					"raw": "localhost:8085/graphql",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/graphql deleteUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation DeleteUser($id: ID!) {\n    deleteUser(id: $id) {\n        id\n        name\n        email\n    }\n}",
+						"variables": "{\n    \"id\": 1\n}"
+					}
+				},
+				"url": {
+					"raw": "localhost:8085/graphql",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
